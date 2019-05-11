@@ -128,7 +128,7 @@ class IndexPage extends React.Component {
   setFilter = (year, groupedCounties) => {
     const appendToMapStyle = (country, color) => mapStyle => {
       const newFips = Object.keys(groupedCounties)
-        .filter(yr => yr < year)
+        .filter(yr => yr <= year)
         .map(x => groupedCounties[x])
         .flat()
         .filter(x => x.lang === country)
@@ -146,7 +146,8 @@ class IndexPage extends React.Component {
       appendToMapStyle("French", "#ff00ff"),
       appendToMapStyle(undefined, "#000000"),
       appendToMapStyle("Dutch", "#ff9d00"),
-      appendToMapStyle("Italian", "#4cc600")
+      appendToMapStyle("Italian", "#4cc600"),
+      appendToMapStyle("Civil War", "#ffffff")
     )(defaultMapStyle)
   }
 
@@ -166,7 +167,16 @@ class IndexPage extends React.Component {
       }
       countyName = county.properties.COUNTY
     }
-    console.log(county && county.properties)
+    console.log(
+      county &&
+        JSON.stringify(
+          counties.find(
+            x =>
+              (x.fips[0] === "0" ? x.fips : parseInt(x.fips)) ===
+              county.properties.FIPS
+          )
+        )
+    )
     // this.setState({
     //   mapStyle: defaultMapStyle.setIn(
     //     ["layers", highlightLayerIndex, "filter", 2],
