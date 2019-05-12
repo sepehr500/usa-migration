@@ -1,6 +1,6 @@
 import React from "react"
 import secrets from "../../secrets.json"
-import ReactMapGL from "react-map-gl"
+import ReactMapGL, { Popup } from "react-map-gl"
 import { groupBy, filter, assoc, assocPath, compose } from "ramda"
 
 import counties from "../../../scrapeScript/eData.json"
@@ -168,6 +168,7 @@ class IndexPage extends React.Component {
     },
     year: 1750,
     mapStyle: defaultMapStyle,
+    hoverInfo: null,
   }
 
   setFilter = (year, groupedCounties) => {
@@ -218,7 +219,11 @@ class IndexPage extends React.Component {
     if (county) {
       hoverInfo = {
         lngLat: event.lngLat,
-        county: county.properties,
+        county: counties.find(
+          x =>
+            (x.fips[0] === "0" ? x.fips : parseInt(x.fips)) ===
+            county.properties.FIPS
+        ),
       }
       countyName = county.properties.COUNTY
     }
@@ -232,13 +237,29 @@ class IndexPage extends React.Component {
           )
         )
     )
-    // this.setState({
-    //   mapStyle: defaultMapStyle.setIn(
-    //     ["layers", highlightLayerIndex, "filter", 2],
-    //     countyName
-    //   ),
-    //   hoverInfo,
-    // })
+    this.setState({
+      hoverInfo,
+    })
+  }
+  renderPopup() {
+    const { hoverInfo } = this.state
+    if (hoverInfo && hoverInfo.county) {
+      return (
+        <Popup
+          longitude={hoverInfo.lngLat[0]}
+          latitude={hoverInfo.lngLat[1]}
+          closeButton={false}
+        >
+          <div className="county-info">
+            <b>{hoverInfo.county.name}</b>
+          </div>
+          <div className="county-info">
+            {hoverInfo.county.etymology && hoverInfo.county.etymology}
+          </div>
+        </Popup>
+      )
+    }
+    return null
   }
 
   render() {
@@ -283,7 +304,9 @@ class IndexPage extends React.Component {
           mapboxApiAccessToken={secrets.mapboxKey}
           {...this.state.viewport}
           onViewportChange={viewport => this.setState({ viewport })}
-        />
+        >
+          {this.renderPopup()}
+        </ReactMapGL>
       </Layout>
     )
   }
