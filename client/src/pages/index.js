@@ -7,6 +7,49 @@ import counties from "../../../scrapeScript/eData.json"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+const filterConfig = [
+  {
+    key: "Spanish",
+    color: "#e1ff00",
+    label: "Spanish",
+  },
+  {
+    key: "English",
+    color: "#ff0000",
+  },
+  {
+    key: undefined,
+    color: "#000000",
+  },
+  {
+    key: "Native American",
+    color: "#00ffff",
+  },
+  {
+    key: "French",
+    color: "#ff00ff",
+  },
+  {
+    key: "Civil War",
+    color: "#ffffff",
+  },
+  {
+    key: "Dutch",
+    color: "#ff9d00",
+  },
+  {
+    key: "German",
+    color: "#4cc600",
+  },
+]
+
+const Checkbox = props => (
+  <div>
+    <input {...props} style={{ marginRight: "10px" }} type="checkbox" />
+    <label>{props.label}</label>
+  </div>
+)
+
 const groupedByYear = groupBy(x => x.established, counties)
 
 const defaultMapStyle = {
@@ -114,9 +157,11 @@ const baseSpecialLayer = (country, color, codes) => ({
 class IndexPage extends React.Component {
   state = {
     viewport: {
+      width: window.innerWidth,
+      height: window.innerHeight,
       latitude: 38.88,
       longitude: -98,
-      zoom: 3,
+      zoom: 3.5,
       minZoom: 2,
       bearing: 0,
       pitch: 0,
@@ -135,10 +180,20 @@ class IndexPage extends React.Component {
         .map(x => (x.fips[0] === "0" ? x.fips : parseInt(x.fips)))
       return assocPath(
         ["layers"],
-        mapStyle.layers.concat(baseSpecialLayer(country, color, newFips)),
+        mapStyle.layers.concat(
+          baseSpecialLayer(
+            country,
+            this.state[country] ? color : "#000000",
+            newFips
+          )
+        ),
         mapStyle
       )
     }
+    return filterConfig.reduce(
+      (prev, curr) => appendToMapStyle(curr.key, curr.color)(prev),
+      defaultMapStyle
+    )
     return compose(
       appendToMapStyle("Spanish", "#e1ff00"),
       appendToMapStyle("English", "#ff0000"),
@@ -190,8 +245,37 @@ class IndexPage extends React.Component {
     return (
       <Layout>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+        <div
+          style={{ position: "absolute", zIndex: "10", background: "white" }}
+        >
+          <div style={{ color: "black", fontSize: "20px" }}>
+            {this.state.year}
+          </div>
+          <div>
+            <input
+              type="range"
+              min="1617"
+              max="2013"
+              onChange={e => {
+                this.setState({ year: e.target.value })
+              }}
+              value={this.state.year}
+              id="myRange"
+            />
+            {filterConfig.map(
+              x =>
+                x.key && (
+                  <Checkbox
+                    label={x.key}
+                    value={this.state[x.key]}
+                    onClick={e => this.setState({ [x.key]: e.target.checked })}
+                  />
+                )
+            )}
+          </div>
+        </div>
         <ReactMapGL
-          width={1000}
+          width={"100%"}
           height={900}
           onHover={this._onHover}
           mapStyle="mapbox://styles/mapbox/dark-v9"
@@ -200,19 +284,6 @@ class IndexPage extends React.Component {
           {...this.state.viewport}
           onViewportChange={viewport => this.setState({ viewport })}
         />
-        {this.state.year}
-        <div>
-          <input
-            type="range"
-            min="1617"
-            max="2013"
-            onChange={e => {
-              this.setState({ year: e.target.value })
-            }}
-            value={this.state.year}
-            id="myRange"
-          />
-        </div>
       </Layout>
     )
   }

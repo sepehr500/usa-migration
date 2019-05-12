@@ -56,17 +56,17 @@ const run = async () => {
       url:
         "https://en.wikipedia.org/wiki/List_of_Irish_place_names_in_other_countries#United_States",
       lang: "Irish"
-    }
+    },
     // {
     //   url:
     //     "",
     //   lang: "Dutch"
     // },
-    // {
-    //   url:
-    //     "https://en.wikipedia.org/wiki/List_of_place_names_of_Native_American_origin_in_the_United_States",
-    //   lang: "Native American"
-    // }
+    {
+      url:
+        "https://en.wikipedia.org/wiki/List_of_place_names_of_Native_American_origin_in_the_United_States",
+      lang: "Native American"
+    }
   ];
 
   const result = await Promise.all(
@@ -115,20 +115,20 @@ const run = async () => {
   const nativeAmerican = R.always("Native American");
 
   const enrichWithEtymology = R.cond([
-    // [
-    //   R.anyPass([
-    //     R.contains("Native American"),
-    //     R.contains("Tribe"),
-    //     R.contains("tribe"),
-    //     R.contains("Indians"),
-    //     R.contains("Navajo"),
-    //     R.contains("Apache"),
-    //     R.contains("Choctaw"),
-    //     R.contains("Native people"),
-    //     R.contains("Chinook")
-    //   ]),
-    //   () => "Native American"
-    // ],
+    [
+      R.anyPass([
+        R.contains("Native American"),
+        R.contains("Tribe"),
+        R.contains("tribe"),
+        R.contains("Indians"),
+        R.contains("Navajo"),
+        R.contains("Apache"),
+        R.contains("Choctaw"),
+        R.contains("Native people"),
+        R.contains("Chinook")
+      ]),
+      () => "Native American"
+    ],
     [
       R.anyPass([
         R.contains("Civil War"),
