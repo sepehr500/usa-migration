@@ -257,7 +257,12 @@ class IndexPage extends React.Component {
       <Layout>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <div
-          style={{ position: "absolute", zIndex: "10", background: "white" }}
+          style={{
+            position: "absolute",
+            zIndex: "10",
+            background: "#ffffff57",
+            paddingLeft: "1rem",
+          }}
         >
           <div style={{ color: "black", fontSize: "20px" }}>
             {this.state.year}
