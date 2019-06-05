@@ -3,7 +3,7 @@ import secrets from "../../secrets.json"
 import ReactMapGL, { Popup } from "react-map-gl"
 import { groupBy, filter, assoc, assocPath, compose } from "ramda"
 
-import counties from "../../../scrapeScript/eData.json"
+import counties from "../../../eData.json"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
@@ -19,7 +19,7 @@ const filterConfig = [
   },
   {
     key: undefined,
-    color: "#000000",
+    color: "#0000FF",
   },
   {
     key: "Native American",
@@ -166,7 +166,7 @@ class IndexPage extends React.Component {
       bearing: 0,
       pitch: 0,
     },
-    year: 1750,
+    year: 1617,
     mapStyle: defaultMapStyle,
     hoverInfo: null,
   }
@@ -184,7 +184,7 @@ class IndexPage extends React.Component {
         mapStyle.layers.concat(
           baseSpecialLayer(
             country,
-            this.state[country] ? color : "#000000",
+            this.state[country] ? color : "#0000FF",
             newFips
           )
         ),
@@ -195,16 +195,6 @@ class IndexPage extends React.Component {
       (prev, curr) => appendToMapStyle(curr.key, curr.color)(prev),
       defaultMapStyle
     )
-    return compose(
-      appendToMapStyle("Spanish", "#e1ff00"),
-      appendToMapStyle("English", "#ff0000"),
-      appendToMapStyle("Native American", "#00ffff"),
-      appendToMapStyle("French", "#ff00ff"),
-      appendToMapStyle(undefined, "#000000"),
-      appendToMapStyle("Dutch", "#ff9d00"),
-      appendToMapStyle("Italian", "#4cc600"),
-      appendToMapStyle("Civil War", "#ffffff")
-    )(defaultMapStyle)
   }
 
   componentDidMount() {

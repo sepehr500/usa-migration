@@ -49,6 +49,26 @@ const run = async () => {
         .slice(1)
         .map(x => {
           const year = moment(crawlAndGetText(x.children[7])).year() + 1;
+          if (state === "Idaho") {
+            return {
+              state,
+              name: crawlAndGetText(x.children[1]),
+              fips: fipsCode + crawlAndGetText(x.children[3]),
+              countySeat: crawlAndGetText(x.children[5]),
+              established: parseInt(crawlAndGetText(x.children[7])),
+              etymology: crawlAndGetText(x.children[13])
+            };
+          }
+          if (state === "North Dakota") {
+            return {
+              state,
+              name: crawlAndGetText(x.children[1]),
+              fips: fipsCode + crawlAndGetText(x.children[3]),
+              countySeat: crawlAndGetText(x.children[5]),
+              established: parseInt(crawlAndGetText(x.children[7])),
+              etymology: crawlAndGetText(x.children[9])
+            };
+          }
           if (state === "Iowa") {
             return {
               state,

@@ -138,6 +138,21 @@ const run = async () => {
       ]),
       () => "Civil War"
     ],
+    [R.anyPass([R.contains("French"), R.contains("France")]), () => "French"],
+    [R.anyPass([R.contains("German")]), () => "German"],
+    [R.anyPass([R.contains("Spanish"), R.contains("Spain")]), () => "Spanish"],
+    [R.anyPass([R.contains("Italian"), R.contains("Italy")]), () => "Italian"],
+    [
+      R.anyPass([R.contains("Dutch"), R.contains("Netherlands")]),
+      () => "Dutch"
+    ],
+    [R.anyPass([R.contains("Swedish"), R.contains("Sweden")]), () => "Swedish"],
+    [R.anyPass([R.contains("Danish"), R.contains("Denmark")]), () => "Denmark"],
+    [R.anyPass([R.contains("Polish"), R.contains("Poland")]), () => "Polish"],
+    [
+      R.anyPass([R.contains("Norway"), R.contains("Norwegian")]),
+      () => "Norwegian"
+    ],
     [
       R.anyPass([
         R.contains("England"),
@@ -148,39 +163,24 @@ const run = async () => {
         R.contains("United Kingdom")
       ]),
       () => "English"
-    ],
-    [R.anyPass([R.contains("French"), R.contains("France")]), () => "French"],
-    [R.anyPass([R.contains("German")]), () => "German"],
-    [R.anyPass([R.contains("Spanish"), R.contains("Spain")]), () => "Spanish"],
-    [R.anyPass([R.contains("Italian"), R.contains("Italy")]), () => "Italian"],
-    [
-      R.anyPass([R.contains("Dutch"), R.contains("Netherlands")]),
-      () => "Dutch"
-    ],
-    [R.anyPass([R.contains("Swedish"), R.contains("Sweden")]), () => "Swedish"],
-    [R.anyPass([R.contains("Danish"), R.contains("Denmark")]), () => "English"],
-    [R.anyPass([R.contains("Polish"), R.contains("Poland")]), () => "Polish"],
-    [
-      R.anyPass([R.contains("Norway"), R.contains("Norwegian")]),
-      () => "Norwegian"
     ]
 
     //[R.anyPass([R.contains("American")]), () => "American"]
   ]);
 
   const fl = counties
-    .map(x => {
-      return finalObj[replaceFluff(x.name)]
-        ? {
-            ...x,
-            lang: finalObj[replaceFluff(x.name)]
-          }
-        : { ...x };
-    })
+    // .map(x => {
+    //   return finalObj[replaceFluff(x.name)]
+    //     ? {
+    //         ...x,
+    //         lang: finalObj[replaceFluff(x.name)]
+    //       }
+    //     : { ...x };
+    // })
     .map(x => {
       return {
         ...x,
-        lang: x.lang || enrichWithEtymology(x.etymology)
+        lang: enrichWithEtymology(x.etymology)
       };
     });
   fs.writeFileSync("eData.json", JSON.stringify(fl));
