@@ -117,10 +117,20 @@ const run = async () => {
   const enrichWithEtymology = R.cond([
     [
       R.anyPass([
+        R.contains("Spanish"),
+        R.contains("Spain"),
+        R.contains("Presidio")
+      ]),
+      () => "Spanish"
+    ],
+    [
+      R.anyPass([
         R.contains("Native American"),
         R.contains("Tribe"),
         R.contains("tribe"),
         R.contains("Indians"),
+        R.contains("Indian"),
+        R.contains("Ute"),
         R.contains("Navajo"),
         R.contains("Apache"),
         R.contains("Choctaw"),
@@ -140,7 +150,6 @@ const run = async () => {
     ],
     [R.anyPass([R.contains("French"), R.contains("France")]), () => "French"],
     [R.anyPass([R.contains("German")]), () => "German"],
-    [R.anyPass([R.contains("Spanish"), R.contains("Spain")]), () => "Spanish"],
     [R.anyPass([R.contains("Italian"), R.contains("Italy")]), () => "Italian"],
     [
       R.anyPass([R.contains("Dutch"), R.contains("Netherlands")]),
@@ -160,7 +169,13 @@ const run = async () => {
         R.contains("English"),
         R.contains("British"),
         R.contains("Britain"),
-        R.contains("United Kingdom")
+        R.contains("United Kingdom"),
+        R.contains("Lord"),
+        R.contains("Lords"),
+        R.contains("Queen"),
+        R.contains("UK"),
+        R.contains("Baron"),
+        R.contains("George II")
       ]),
       () => "English"
     ]

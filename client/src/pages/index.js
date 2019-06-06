@@ -157,8 +157,7 @@ const baseSpecialLayer = (country, color, codes) => ({
 class IndexPage extends React.Component {
   state = {
     viewport: {
-      width: window.innerWidth,
-      height: window.innerHeight,
+      height: window.innerHeight - 78,
       latitude: 38.88,
       longitude: -98,
       zoom: 3.5,
@@ -259,13 +258,19 @@ class IndexPage extends React.Component {
         <div
           style={{
             position: "absolute",
+            top: "96px",
             zIndex: "10",
-            background: "#ffffff57",
-            paddingLeft: "1rem",
+            borderRadius: "14px",
+            background: "rgb(239, 239, 239)",
+            marginLeft: "7px",
+            marginTop: "11px",
+            padding: "1rem",
+            boxShadow:
+              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
           }}
         >
           <div style={{ color: "black", fontSize: "20px" }}>
-            {this.state.year}
+            Year: <b>{this.state.year}</b>
           </div>
           <div>
             <input
