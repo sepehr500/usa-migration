@@ -34,7 +34,7 @@ const filterConfig = [
   },
   {
     key: undefined,
-    color: "#3399ff",
+    color: DEFAULT_BLUE,
   },
   {
     key: "Native American",
@@ -119,8 +119,6 @@ const defaultMapStyle = {
       paint: {
         "fill-outline-color": "rgba(0,0,0,0.1)",
         "fill-color": "rgba(0,0,0,0.1)",
-        // "fill-outline-color": "#0000ff",
-        // "fill-opacity": 1,
       },
     },
     {
@@ -186,13 +184,14 @@ class IndexPage extends React.Component {
   }
 
   setFilter = (year, groupedCounties) => {
-    const appendToMapStyle = (country, color) => mapStyle => {
+    const appendToMapStyle = (country, color, mapStyle) => {
       const newFips = flatten(
         Object.keys(groupedCounties)
           .filter(yr => yr <= year)
           .map(x => groupedCounties[x])
       )
         .filter(x => x.lang === country)
+        // Need to do this because Mapbox treats fips that don't start with 0 as int not strings
         .map(x => (x.fips[0] === "0" ? x.fips : parseInt(x.fips)))
       return assocPath(
         ["layers"],
@@ -207,7 +206,7 @@ class IndexPage extends React.Component {
       )
     }
     return filterConfig.reduce(
-      (prev, curr) => appendToMapStyle(curr.key, curr.color)(prev),
+      (prev, curr) => appendToMapStyle(curr.key, curr.color, prev),
       defaultMapStyle
     )
   }
@@ -323,6 +322,8 @@ class IndexPage extends React.Component {
           height={900}
           onHover={this._onHover}
           mapStyle="mapbox://styles/mapbox/dark-v9"
+          // Map style is not stored in state
+          // It is calculated off the year
           mapStyle={this.setFilter(this.state.year, groupedByYear)}
           mapboxApiAccessToken={secrets.mapboxKey}
           {...this.state.viewport}
