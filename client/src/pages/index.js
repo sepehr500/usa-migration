@@ -157,7 +157,7 @@ const baseSpecialLayer = (country, color, codes) => ({
 class IndexPage extends React.Component {
   state = {
     viewport: {
-      height: window.innerHeight - 78,
+      height: window && window.innerHeight - 78,
       latitude: 38.88,
       longitude: -98,
       zoom: 3.5,
