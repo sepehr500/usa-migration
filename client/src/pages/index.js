@@ -32,7 +32,7 @@ const filterConfig = [
   },
   {
     key: undefined,
-    color: "#0000FF",
+    color: "#3399ff",
   },
   {
     key: "Native American",
