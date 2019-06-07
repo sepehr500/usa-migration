@@ -7,6 +7,19 @@ import counties from "../../../eData.json"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+function flatten(arr) {
+  let newArr = []
+  arr &&
+    arr.forEach(a => {
+      if (a instanceof Array) {
+        newArr = newArr.concat(flatten(a))
+      } else {
+        newArr.splice(newArr.length, 0, a)
+      }
+    })
+  return newArr
+}
+
 const filterConfig = [
   {
     key: "Spanish",
@@ -157,7 +170,7 @@ const baseSpecialLayer = (country, color, codes) => ({
 class IndexPage extends React.Component {
   state = {
     viewport: {
-      height: window && window.innerHeight - 78,
+      height: typeof window !== "undefined" && window.innerHeight - 78,
       latitude: 38.88,
       longitude: -98,
       zoom: 3.5,
@@ -172,10 +185,11 @@ class IndexPage extends React.Component {
 
   setFilter = (year, groupedCounties) => {
     const appendToMapStyle = (country, color) => mapStyle => {
-      const newFips = Object.keys(groupedCounties)
-        .filter(yr => yr <= year)
-        .map(x => groupedCounties[x])
-        .flat()
+      const newFips = flatten(
+        Object.keys(groupedCounties)
+          .filter(yr => yr <= year)
+          .map(x => groupedCounties[x])
+      )
         .filter(x => x.lang === country)
         .map(x => (x.fips[0] === "0" ? x.fips : parseInt(x.fips)))
       return assocPath(
