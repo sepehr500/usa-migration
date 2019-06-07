@@ -211,6 +211,10 @@ class IndexPage extends React.Component {
   }
 
   componentDidMount() {
+    const newViewport = Object.assign(this.state.viewport, {
+      height: window.innerHeight,
+    })
+    this.setState({ viewport: newViewport })
     this.setFilter(this.state.year, groupedByYear)
   }
   _onHover = event => {
