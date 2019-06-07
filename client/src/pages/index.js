@@ -7,6 +7,8 @@ import counties from "../../../eData.json"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+const DEFAULT_BLUE = "#3399ff"
+
 function flatten(arr) {
   let newArr = []
   arr &&
@@ -127,7 +129,7 @@ const defaultMapStyle = {
       source: "counties",
       "source-layer": "original",
       paint: {
-        "fill-outline-color": "#0000ff",
+        "fill-outline-color": DEFAULT_BLUE,
         "fill-color": "#6e599f",
         "fill-opacity": 0.5,
       },
@@ -197,7 +199,7 @@ class IndexPage extends React.Component {
         mapStyle.layers.concat(
           baseSpecialLayer(
             country,
-            this.state[country] ? color : "#0000FF",
+            this.state[country] ? color : DEFAULT_BLUE,
             newFips
           )
         ),
