@@ -273,44 +273,47 @@ class IndexPage extends React.Component {
     return (
       <Layout>
         <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-        <div
-          style={{
-            position: "absolute",
-            top: "96px",
-            zIndex: "10",
-            borderRadius: "14px",
-            background: "rgb(239, 239, 239)",
-            marginLeft: "7px",
-            marginTop: "11px",
-            padding: "1rem",
-            boxShadow:
-              "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-          }}
-        >
-          <div style={{ color: "black", fontSize: "20px" }}>
-            Year: <b>{this.state.year}</b>
-          </div>
-          <div>
-            <input
-              type="range"
-              min="1617"
-              max="2013"
-              onChange={e => {
-                this.setState({ year: e.target.value })
-              }}
-              value={this.state.year}
-              id="myRange"
-            />
-            {filterConfig.map(
-              x =>
-                x.key && (
-                  <Checkbox
-                    label={x.key}
-                    value={this.state[x.key]}
-                    onClick={e => this.setState({ [x.key]: e.target.checked })}
-                  />
-                )
-            )}
+        <div style={{ position: "relative" }}>
+          <div
+            style={{
+              position: "absolute",
+              zIndex: "10",
+              borderRadius: "14px",
+              background: "rgb(239, 239, 239)",
+              marginLeft: "7px",
+              marginTop: "11px",
+              padding: "1rem",
+              boxShadow:
+                "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+            }}
+          >
+            <div style={{ color: "black", fontSize: "20px" }}>
+              Year: <b>{this.state.year}</b>
+            </div>
+            <div>
+              <input
+                type="range"
+                min="1617"
+                max="2013"
+                onChange={e => {
+                  this.setState({ year: e.target.value })
+                }}
+                value={this.state.year}
+                id="myRange"
+              />
+              {filterConfig.map(
+                x =>
+                  x.key && (
+                    <Checkbox
+                      label={x.key}
+                      value={this.state[x.key]}
+                      onClick={e =>
+                        this.setState({ [x.key]: e.target.checked })
+                      }
+                    />
+                  )
+              )}
+            </div>
           </div>
         </div>
         <ReactMapGL
