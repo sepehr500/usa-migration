@@ -170,7 +170,7 @@ const baseSpecialLayer = (country, color, codes) => ({
 class IndexPage extends React.Component {
   state = {
     viewport: {
-      height: typeof window !== "undefined" && window.innerHeight - 78,
+      height: typeof window !== "undefined" && window.innerHeight - 49,
       latitude: 38.88,
       longitude: -98,
       zoom: 3.5,
@@ -213,7 +213,7 @@ class IndexPage extends React.Component {
 
   componentDidMount() {
     const newViewport = Object.assign(this.state.viewport, {
-      height: window.innerHeight,
+      height: window.innerHeight - 49,
     })
     this.setState({ viewport: newViewport })
     this.setFilter(this.state.year, groupedByYear)
