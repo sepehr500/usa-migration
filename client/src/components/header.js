@@ -14,7 +14,7 @@ const Header = ({ siteTitle }) => (
         padding: "17px",
       }}
     >
-      <h1 style={{ margin: 0 }}>
+      <h2 style={{ margin: 0 }}>
         <span
           to="/"
           style={{
@@ -24,7 +24,7 @@ const Header = ({ siteTitle }) => (
         >
           {siteTitle}
         </span>
-      </h1>
+      </h2>
     </div>
   </header>
 )

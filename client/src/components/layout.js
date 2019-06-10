@@ -25,7 +25,7 @@ const Layout = ({ children }) => (
     `}
     render={data => (
       <>
-        <Header siteTitle="United States migration map" />
+        <Header siteTitle="United States county establishment map" />
         <div
           style={{
             margin: `0 auto`,

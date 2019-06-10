@@ -178,7 +178,7 @@ class IndexPage extends React.Component {
       bearing: 0,
       pitch: 0,
     },
-    year: 1617,
+    year: 1776,
     mapStyle: defaultMapStyle,
     hoverInfo: null,
   }
@@ -289,7 +289,8 @@ class IndexPage extends React.Component {
             }}
           >
             <div style={{ color: "black", fontSize: "20px" }}>
-              Year: <b>{this.state.year}</b>
+              <div>Drag to change year: </div>
+              <b>{this.state.year}</b>
             </div>
             <div>
               <input
