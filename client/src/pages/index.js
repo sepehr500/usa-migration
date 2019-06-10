@@ -9,6 +9,20 @@ import SEO from "../components/seo"
 
 const DEFAULT_BLUE = "#3399ff"
 
+const groupedByYear = groupBy(x => x.established, counties)
+
+const memoize = fn => {
+  const cache = {}
+  return function(...input) {
+    if (cache[input.toString()]) {
+      return cache[input.toString()]
+    }
+    const result = fn(...input)
+    cache[input.toString()] = result
+    return result
+  }
+}
+
 function flatten(arr) {
   let newArr = []
   arr &&
@@ -21,6 +35,18 @@ function flatten(arr) {
     })
   return newArr
 }
+
+const calculateFips = memoize((year, country) => {
+  const newFips = flatten(
+    Object.keys(groupedByYear)
+      .filter(yr => yr <= year)
+      .map(x => groupedByYear[x])
+  )
+    .filter(x => x.lang === country)
+    // Need to do this because Mapbox treats fips that don't start with 0 as int not strings
+    .map(x => (x.fips[0] === "0" ? x.fips : parseInt(x.fips)))
+  return newFips
+})
 
 const filterConfig = [
   {
@@ -64,8 +90,6 @@ const Checkbox = props => (
     <label>{props.label}</label>
   </div>
 )
-
-const groupedByYear = groupBy(x => x.established, counties)
 
 const defaultMapStyle = {
   version: 8,
@@ -182,16 +206,9 @@ class IndexPage extends React.Component {
     hoverInfo: null,
   }
 
-  setFilter = (year, groupedCounties) => {
+  setFilter = year => {
     const appendToMapStyle = (country, color, mapStyle) => {
-      const newFips = flatten(
-        Object.keys(groupedCounties)
-          .filter(yr => yr <= year)
-          .map(x => groupedCounties[x])
-      )
-        .filter(x => x.lang === country)
-        // Need to do this because Mapbox treats fips that don't start with 0 as int not strings
-        .map(x => (x.fips[0] === "0" ? x.fips : parseInt(x.fips)))
+      const newFips = calculateFips(year, country)
       return assocPath(
         ["layers"],
         mapStyle.layers.concat(
@@ -204,6 +221,7 @@ class IndexPage extends React.Component {
         mapStyle
       )
     }
+
     return filterConfig.reduce(
       (prev, curr) => appendToMapStyle(curr.key, curr.color, prev),
       defaultMapStyle
