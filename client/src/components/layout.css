@@ -618,6 +618,21 @@ pre tt:before,
 pre tt:after {
   content: "";
 }
+
+.timeline {
+  display: flex;
+  position: absolute;
+  bottom: 6vh;
+  height: 77px;
+  width: 100%;
+  background-color: white;
+}
+
+.inner-timeline {
+  height: 20px;
+  height: 100%;
+}
+
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;

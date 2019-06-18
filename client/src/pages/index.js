@@ -3,11 +3,15 @@ import secrets from "../../secrets.json"
 import ReactMapGL, { Popup } from "react-map-gl"
 import { groupBy, filter, assoc, assocPath, compose } from "ramda"
 
+import {
+  events,
+  filterConfig,
+  defaultMapStyle,
+  DEFAULT_BLUE,
+} from "./mapConfigs"
 import counties from "../../../eData.json"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-
-const DEFAULT_BLUE = "#3399ff"
 
 const groupedByYear = groupBy(x => x.established, counties)
 
@@ -48,135 +52,12 @@ const calculateFips = memoize((year, country) => {
   return newFips
 })
 
-const filterConfig = [
-  {
-    key: "Spanish",
-    color: "#e1ff00",
-    label: "Spanish",
-  },
-  {
-    key: "English",
-    color: "#ff0000",
-  },
-  {
-    key: undefined,
-    color: DEFAULT_BLUE,
-  },
-  {
-    key: "Native American",
-    color: "#00ffff",
-  },
-  {
-    key: "French",
-    color: "#ff00ff",
-  },
-  {
-    key: "Civil War",
-    color: "#ffffff",
-  },
-  {
-    key: "Dutch",
-    color: "#ff9d00",
-  },
-  {
-    key: "German",
-    color: "#4cc600",
-  },
-]
-
 const Checkbox = props => (
   <div>
     <input {...props} style={{ marginRight: "10px" }} type="checkbox" />
     <label>{props.label}</label>
   </div>
 )
-
-const defaultMapStyle = {
-  version: 8,
-  sprite: "mapbox://sprites/mapbox/basic-v8",
-  glyphs: "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
-  metadata: {
-    "mapbox:autocomposite": true,
-  },
-  sources: {
-    "mapbox-satellite": {
-      type: "raster",
-      url: "mapbox://mapbox.satellite",
-      tileSize: 256,
-    },
-    mapbox: {
-      url: "mapbox://mapbox.mapbox-streets-v8",
-      type: "vector",
-    },
-    counties: {
-      type: "vector",
-      url: "mapbox://mapbox.82pkq93d",
-    },
-  },
-  layers: [
-    {
-      id: "satellite",
-      type: "raster",
-      source: "mapbox-satellite",
-    },
-    {
-      id: "street",
-      type: "line",
-      source: "mapbox",
-      "source-layer": "admin",
-    },
-    {
-      id: "water",
-      type: "fill",
-      source: "mapbox",
-      "source-layer": "water",
-      paint: {
-        "fill-color": "#a0cfdf",
-      },
-    },
-    {
-      id: "counties",
-      interactive: true,
-      type: "fill",
-      source: "counties",
-      "source-layer": "original",
-      paint: {
-        "fill-outline-color": "rgba(0,0,0,0.1)",
-        "fill-color": "rgba(0,0,0,0.1)",
-      },
-    },
-    {
-      id: "counties-highlighted",
-      type: "fill",
-      source: "counties",
-      "source-layer": "original",
-      paint: {
-        "fill-outline-color": DEFAULT_BLUE,
-        "fill-color": "#6e599f",
-        "fill-opacity": 0.5,
-      },
-      filter: ["in", "FIPS"],
-    },
-    {
-      id: "names",
-      type: "symbol",
-      source: "mapbox",
-      layout: {
-        "text-field": "{name_en}",
-        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-      },
-      filter: [
-        "all",
-        ["==", "$type", "Point"],
-        ["in", "type", "state", "county", "city"],
-      ],
-      paint: {
-        "text-color": "#ffffff",
-      },
-      "source-layer": "place_label",
-    },
-  ],
-}
 
 const baseSpecialLayer = (country, color, codes) => ({
   id: "counties-highlighted-" + country,
@@ -191,7 +72,23 @@ const baseSpecialLayer = (country, color, codes) => ({
   filter: ["in", "FIPS"].concat(codes),
 })
 
+const TimelineSegment = ({ eventName, basis, active }) => (
+  <div style={{ flexBasis: basis }} className="start inner-timeline">
+    <div style={{ width: "100%", height: "50%" }}>{eventName}</div>
+    <div
+      style={{
+        width: "100%",
+        height: "50%",
+        borderTopStyle: "solid",
+        borderColor: active ? "red" : "black",
+      }}
+    />
+  </div>
+)
+
 class IndexPage extends React.Component {
+  MIN = "1617"
+  MAX = "2013"
   state = {
     viewport: {
       latitude: 38.88,
@@ -349,6 +246,39 @@ class IndexPage extends React.Component {
         >
           {this.renderPopup()}
         </ReactMapGL>
+        <div className="timeline">
+          {events.map(e => {
+            const percentage =
+              (e.end - e.start) / (parseInt(this.MAX) - parseInt(this.MIN))
+            console.log(percentage * 100 + "%")
+            return (
+              <TimelineSegment
+                eventName={e.name}
+                active={this.state.year > e.start && this.state.year < e.end}
+                basis={percentage * 100 + "%"}
+              />
+            )
+          })}
+        </div>
+        <div
+          style={{
+            width: "100%",
+            position: "absolute",
+            bottom: "2vh",
+          }}
+        >
+          <input
+            style={{ width: "100%" }}
+            type="range"
+            min={this.MIN}
+            max={this.MAX}
+            onChange={e => {
+              this.setState({ year: e.target.value })
+            }}
+            value={this.state.year}
+            id="myRange"
+          />
+        </div>
       </Layout>
     )
   }
