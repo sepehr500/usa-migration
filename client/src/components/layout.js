@@ -35,24 +35,23 @@ const Layout = ({ children }) => {
     setOpen(false)
   }
   useEffect(() => {
+    if (sessionStorage.getItem("hideModal")) {
+      return
+    }
     MySwal.fire({
-      title: <p>Instructions</p>,
-      onOpen: () => {
-        // `MySwal` is a subclass of `Swal`
-        //   with all the same instance & static methods
-        MySwal.clickConfirm()
+      title: "United States Country Establishment Map",
+      onClose: () => {
+        console.log("CLOSED")
+
+        sessionStorage.setItem("hideModal", true)
       },
-    }).then(() => {
-      return MySwal.fire({
-        title: "United States Country Establishment Map",
-        html: (
-          <p>
-            This app lets you view the establishment of counties through time.
-            Use the slider to select the year. Hover over the county to see the
-            origin of the county name.
-          </p>
-        ),
-      })
+      html: (
+        <p>
+          This app lets you view the establishment of counties through time. Use
+          the slider to select the year. Hover over the county to see the origin
+          of the county name.
+        </p>
+      ),
     })
   }, [])
   return (
