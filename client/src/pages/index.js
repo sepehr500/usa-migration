@@ -2,6 +2,7 @@ import React from "react"
 import secrets from "../../secrets.json"
 import ReactMapGL, { Popup } from "react-map-gl"
 import { groupBy, filter, assoc, assocPath, compose } from "ramda"
+import { Checkbox as Box, Slider as Slide } from "@material-ui/core"
 
 import counties from "../../../eData.json"
 import Layout from "../components/layout"
@@ -85,9 +86,16 @@ const filterConfig = [
 ]
 
 const Checkbox = props => (
-  <div>
-    <input {...props} style={{ marginRight: "10px" }} type="checkbox" />
-    <label>{props.label}</label>
+  <div style={{ display: "flex", alignItems: "center" }}>
+    <Box
+      {...props}
+      style={{ marginRight: "5px" }}
+      type="checkbox"
+      color="primary"
+    />
+    <div style={{ display: "inline-block" }}>
+      <label>{props.label}</label>
+    </div>
   </div>
 )
 
@@ -307,31 +315,37 @@ class IndexPage extends React.Component {
           >
             <div style={{ color: "black", fontSize: "20px" }}>
               <div>Drag to change year: </div>
-              <b>{this.state.year}</b>
+              <div style={{ padding: "10px 0", fontSize: "32px" }}>
+                <b>{this.state.year}</b>
+              </div>
             </div>
             <div>
-              <input
-                type="range"
-                min="1617"
-                max="2013"
-                onChange={e => {
-                  this.setState({ year: e.target.value })
+              <Slide
+                min={1617}
+                max={2013}
+                onChange={(e, val) => {
+                  this.setState({ year: val })
                 }}
-                value={this.state.year}
+                value={parseInt(this.state.year)}
                 id="myRange"
               />
-              {filterConfig.map(
-                x =>
-                  x.key && (
-                    <Checkbox
-                      label={x.key}
-                      value={this.state[x.key]}
-                      onClick={e =>
-                        this.setState({ [x.key]: e.target.checked })
-                      }
-                    />
-                  )
-              )}
+              <div className="hidden-small">
+                <p>
+                  <b>Select Country name origin (beta)</b>
+                </p>
+                {filterConfig.map(
+                  x =>
+                    x.key && (
+                      <Checkbox
+                        label={x.key}
+                        value={this.state[x.key]}
+                        onClick={e =>
+                          this.setState({ [x.key]: e.target.checked })
+                        }
+                      />
+                    )
+                )}
+              </div>
             </div>
           </div>
         </div>

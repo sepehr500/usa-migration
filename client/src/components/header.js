@@ -1,6 +1,7 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import { Button } from "@material-ui/core"
 
 const Header = ({ siteTitle }) => (
   <header
@@ -14,7 +15,7 @@ const Header = ({ siteTitle }) => (
         padding: "17px",
       }}
     >
-      <h2 style={{ margin: 0 }}>
+      <h1 style={{ margin: 0 }}>
         <span
           to="/"
           style={{
@@ -24,7 +25,10 @@ const Header = ({ siteTitle }) => (
         >
           {siteTitle}
         </span>
-      </h2>
+      </h1>
+    </div>
+    <div className="hidden-small">
+      <Button className="hidden-small">About</Button>
     </div>
   </header>
 )
