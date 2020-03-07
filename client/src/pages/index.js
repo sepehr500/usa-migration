@@ -179,7 +179,7 @@ const defaultMapStyle = {
         ["in", "type", "state", "county", "city"],
       ],
       paint: {
-        "text-color": "#000000",
+        "text-color": "#ffffff",
       },
       "source-layer": "place_label",
     },
