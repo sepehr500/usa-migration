@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "cheerio": "^1.0.0-rc.3",
     "jquery": "^3.4.1",
-    "jsdom": "^15.0.0",
+    "jsdom": "^15.2.1",
     "moment": "^2.24.0",
     "ramda": "^0.26.1"
   }
