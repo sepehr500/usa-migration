@@ -125,18 +125,38 @@ const defaultMapStyle = {
 
 const events = [
   {
-    name: "Start",
+    name: "Colonization",
     start: 1617,
-    end: 1657,
+    end: 1775,
   },
   {
-    name: "Mid",
-    start: 1658,
-    end: 1899,
+    name: "Revolution",
+    start: 1776,
+    end: 1783,
+  },
+  {
+    name: "Manifest Destiny",
+    start: 1784,
+    end: 1860,
+  },
+  {
+    name: "Civil war",
+    start: 1861,
+    end: 1865,
+  },
+  {
+    name: "Reconstruction",
+    start: 1866,
+    end: 1877,
+  },
+  {
+    name: "Gilded Age",
+    start: 1878,
+    end: 1900,
   },
   {
     name: "End",
-    start: 1900,
+    start: 1901,
     end: 2013,
   },
 ]

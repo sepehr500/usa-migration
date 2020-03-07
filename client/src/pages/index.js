@@ -2,6 +2,7 @@ import React from "react"
 import secrets from "../../secrets.json"
 import ReactMapGL, { Popup } from "react-map-gl"
 import { groupBy, filter, assoc, assocPath, compose } from "ramda"
+import { Slider } from "@material-ui/core"
 
 import {
   events,
@@ -74,7 +75,9 @@ const baseSpecialLayer = (country, color, codes) => ({
 
 const TimelineSegment = ({ eventName, basis, active }) => (
   <div style={{ flexBasis: basis }} className="start inner-timeline">
-    <div style={{ width: "100%", height: "50%" }}>{eventName}</div>
+    <div style={{ width: "100%", height: "50%", wordBreak: "break-word" }}>
+      {eventName}
+    </div>
     <div
       style={{
         width: "100%",
@@ -215,7 +218,7 @@ class IndexPage extends React.Component {
                   this.setState({ year: e.target.value })
                 }}
                 value={this.state.year}
-                id="myRange"
+                id="myRangeTop"
               />
               {filterConfig.map(
                 x =>
@@ -254,21 +257,13 @@ class IndexPage extends React.Component {
             return (
               <TimelineSegment
                 eventName={e.name}
-                active={this.state.year > e.start && this.state.year < e.end}
+                active={this.state.year >= e.start && this.state.year <= e.end}
                 basis={percentage * 100 + "%"}
               />
             )
           })}
-        </div>
-        <div
-          style={{
-            width: "100%",
-            position: "absolute",
-            bottom: "2vh",
-          }}
-        >
           <input
-            style={{ width: "100%" }}
+            style={{ width: "100%", position: "absolute", top: "20px" }}
             type="range"
             min={this.MIN}
             max={this.MAX}
@@ -279,6 +274,14 @@ class IndexPage extends React.Component {
             id="myRange"
           />
         </div>
+        <div
+          style={{
+            width: "100%",
+            position: "absolute",
+            bottom: "7.4vh",
+            position: "relative",
+          }}
+        />
       </Layout>
     )
   }

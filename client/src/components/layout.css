@@ -633,6 +633,25 @@ pre tt:after {
   height: 100%;
 }
 
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 7.3px 0;
+  background: transparent;
+}
+/* 
+#myRange input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+ #myRange input[type=range]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  background: transparent;
+  opacity: 0.5;
+} */
+
+
 @media only screen and (max-width: 480px) {
   html {
     font-size: 100%;
