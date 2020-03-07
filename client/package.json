@@ -5,23 +5,27 @@
   "version": "0.1.0",
   "author": "Sepehr Sobhani",
   "dependencies": {
-    "gatsby": "^2.4.2",
-    "gatsby-image": "^2.0.41",
-    "gatsby-plugin-manifest": "^2.1.1",
-    "gatsby-plugin-offline": "^2.1.0",
-    "gatsby-plugin-react-helmet": "^3.0.12",
-    "gatsby-plugin-sharp": "^2.0.36",
-    "gatsby-source-filesystem": "^2.0.33",
-    "gatsby-transformer-sharp": "^2.1.19",
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "gatsby": "^2.19.32",
+    "gatsby-image": "^2.2.43",
+    "gatsby-plugin-manifest": "^2.2.44",
+    "gatsby-plugin-offline": "^2.2.10",
+    "gatsby-plugin-react-helmet": "^3.1.23",
+    "gatsby-plugin-sharp": "^2.4.7",
+    "gatsby-source-filesystem": "^2.1.50",
+    "gatsby-transformer-sharp": "^2.3.17",
     "prop-types": "^15.7.2",
     "ramda": "^0.26.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
-    "react-map-gl": "^4.1.2"
+    "react-map-gl": "^4.1.16",
+    "sweetalert2": "^9.9.0",
+    "sweetalert2-react-content": "^3.0.1"
   },
   "devDependencies": {
-    "prettier": "^1.17.0"
+    "prettier": "^1.19.1"
   },
   "keywords": [
     "gatsby"
