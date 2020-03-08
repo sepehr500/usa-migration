@@ -82,13 +82,21 @@ const Layout = ({ children }) => {
             </AppBar>
             <main>{children}</main>
           </div>
-          <div style={{ position: "absolute", bottom: "0", right: "21px" }}>
+          <div style={{ position: "fixed", bottom: "0", right: "21px" }}>
             <a
               href="https://github.com/sepehr500/usa-migration"
               target="_blank"
               rel="noopener noreferrer"
             >
               <GitHub />
+            </a>
+            <a
+              href="https://github.com/sepehr500/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ position: "fixed", bottom: "6px", right: "58px" }}
+            >
+              contact me
             </a>
           </div>
         </div>
