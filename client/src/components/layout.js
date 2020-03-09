@@ -46,11 +46,14 @@ const Layout = ({ children }) => {
         sessionStorage.setItem("hideModal", true)
       },
       html: (
-        <p>
-          This app lets you view the establishment of counties through time. Use
-          the slider to select the year. Hover over the county to see the origin
-          of the county name.
-        </p>
+        <>
+          <p>
+            This app lets you view the establishment of counties through time.
+            Use the slider to select the year. Hover over the county to see the
+            origin of the county name.
+          </p>
+          <p>Tip: Move the slider slowly to see migrations better</p>
+        </>
       ),
     })
   }, [])
