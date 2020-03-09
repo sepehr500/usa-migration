@@ -298,7 +298,7 @@ class IndexPage extends React.Component {
   render() {
     return (
       <Layout>
-        <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+        <SEO title="County Timeline" keywords={["County Timeline"]} />
         <div style={{ position: "relative" }}>
           <div
             style={{
